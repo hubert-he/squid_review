@@ -1,0 +1,333 @@
+squidMain()
+--> mainInitialize[static]
+	-->serverConnectionsOpen[static]
+		-->clientOpenListenSockets
+			-->clientHttpConnectionsOpen[static]-->> Config.Sockaddr.http 配置- 需查看对应config
+				{for (const AnyP::PortCfg *s = Config.Sockaddr.http; s; s = s->next)}
+--> Event-loop  配置注册相关引擎
+-->
+	if (IamCoordinatorProcess())
+			AsyncJob::Start(Ipc::Coordinator::Instance());
+	else if (UsingSmp() && (IamWorkerProcess() || IamDiskProcess()))
+			AsyncJob::Start(new Ipc::Strand);
+--> mainLoop.run(); 开始运转
+	
+
+EventLoop
+{
+public: 
+	void registerEngine(AsyncEngine *engine);
+	void run(); 
+		--> prepareToRun  赋初值
+		--> while(!runOnce())
+	bool runOnce();  主要的循环处理工作
+	-->循环处理 非primary engine的事务
+		checkEngine(*i, false); 产生事件，附带回调处理函数
+		sawActivity = dispatchCalls(); 消化事件，调用相关处理函数
+	-->进入primary engine[或waitingEngine]的事务处理
+	-->timeService处理
+	-->sawActivity = dispatchCalls(); // dispatch calls scheduled by waitingEngine and timeService
+	void setPrimaryEngine(AsyncEngine * engine);
+	void setTimeService(TimeEngine *engine);
+	void stop();
+	int errcount;
+private:
+	void prepareToRun();
+	void checkEngine(AsyncEngine * engine, bool const primary); // 主要函数01: 主要产生事件
+	-->engine->checkEvents(int delay);
+	bool dispatchCalls(); // 主要函数02: 主要处理事件
+	--> AsyncCallQueue::Instance().fire();
+	bool last_loop;
+	engine_vector engines;
+	TimeEngine * timeService;
+	AsyncEngine * primaryEngine;
+	int loop_delay;
+	bool error;
+	bool runOnceResult;
+}
+
+// 单件模式: 全局事件队列
+AsyncCallQueue
+{
+public:
+	void schedule(AsyncCall::Pointer &call); // 挂接事件到队列中
+	--> theTail = call; // 挂入循环队列中
+	bool fire(); // 消化由schedule 挂接的事件
+	--> AsyncCall::Pointer call = theHead;
+	--> call->make();
+private:
+	void fireNext();
+	AsyncCall::Pointer theHead;
+    AsyncCall::Pointer theTail;
+}
+
+AsyncCall
+{
+friend class AsyncCallQueue;
+public:
+	void make();
+	--> if (canFire()) fire();
+	--> 注意 AsyncCall::fire 函数为纯虚函数
+	--> 详见 CommCbFunPtrCallT 其实现类
+	bool cancel(const char *reason);
+	bool canceled() { return isCanceled != NULL; }
+	virtual CallDialer *getDialer() = 0;
+	void dequeue(AsyncCall::Pointer &head, AsyncCall::Pointer &prev);
+	void setNext(AsyncCall::Pointer aNext) 
+	AsyncCall::Pointer &Next()
+	
+	const char *const name;
+    const InstanceId<AsyncCall> id;
+protected:
+	virtual bool canFire();
+    virtual void fire() = 0;
+    AsyncCall::Pointer theNext; 
+private:
+	const char *isCanceled;
+}
+
+template <class Dialer>
+class CommCbFunPtrCallT: public AsyncCall
+{
+public:
+    virtual CallDialer* getDialer() { return &dialer; }
+
+    Dialer dialer;
+protected:
+    inline virtual bool canFire();
+    inline virtual void fire();
+	--> dialer.dial(); // 也即要求所有 job必须实现 dial函数
+};
+
+===== Job首先引导事件 在squidMain函数中
+AsyncJob
+{
+public:
+    static Pointer Start(AsyncJob *job);/// starts a freshly created job (i.e., makes the job asynchronous
+	-->CallJobHere(93, 5, job, AsyncJob, start);
+		-->CallJob()
+protected:
+
+}
+
+/// schedule an async job call using a dialer; use CallJobHere macros instead
+template <class Dialer> bool
+CallJob(int debugSection, int debugLevel, const char *fileName, int fileLine,
+        const char *callName, const Dialer &dialer)
+{
+    AsyncCall::Pointer call = asyncCall(debugSection, debugLevel, callName, dialer);
+		--> new AsyncCallT<Dialer>(aDebugSection, aDebugLevel, aName, aDialer); // 注：AsyncCallT
+    return ScheduleCall(fileName, fileLine, call);  // 产生事件 并加入队列 处理函数为call
+}
+
+template <class Dialer>
+class AsyncCallT: public AsyncCall
+{
+public:	
+	CallDialer *getDialer() { return &dialer; }
+protected:	
+	virtual bool canFire() { return AsyncCall::canFire() && dialer.canDial(*this);}
+    virtual void fire() { dialer.dial(*this); }//execute the callback function wrapped by argument aDialer
+    Dialer dialer;
+private:
+}
+
+// 关于Dialer 函数
+===================================
+httpAccept(const CommAcceptCbParams &params)
+	--> ConnStateData::readSomeData()
+		-->ConnStateData::clientReadRequest(const CommIoCbParams &io)
+			-->ConnStateData::clientParseRequests() ==> ClientSocketContext *context = parseHttpRequest(this, &parser_, &method, &http_ver);
+				-->clientProcessRequest(ConnStateData *conn, HttpParser *hp, ClientSocketContext *context, const HttpRequestMethod& method, HttpVersion http_ver)
+				==>context->pullData();
+				==>http->doCallouts();
+				==>http->calloutContext = new ClientRequestContext(http);
+					-->ClientHttpRequest::doCallouts()
+					node = (clientStreamNode *)client_stream.tail->data;
+					clientStreamRead(node, this, node->readBuffer);
+						-->clientStreamRead(clientStreamNode * thisObject, ClientHttpRequest * http,StoreIOBuffer readBuffer)
+						prev->readfunc(prev, http);
+
+========
+ConnStateData::requestTimeout(const CommTimeoutCbParams &io)
+ClientSocketContext::pullData()
+ClientRequestContext::hostHeaderVerifyFailed(const char *A, const char *B)
+ClientHttpRequest::httpStart()
+ClientHttpRequest::doCallouts()
+==>clientStreamRead
+
+
+===================
+clientReplyContext::clientReplyContext(ClientHttpRequest *clientContext)
+===================
+parseHttpRequestAbout
+parseHttpRequest
+-->http = new ClientHttpRequest(csd);//csd --> ConnStateData * aConn
+	==> setConn(aConn);
+	==> dlinkAdd(this, &active, &ClientActiveRequests); // ClientActiveRequests 全局链表
+-->ClientStreamData newServer = new clientReplyContext(http);
+void clientReplyContext::cacheHit(StoreIOBuffer result)
+clientBeginRequest
+void ClientHttpRequest::handleAdaptedHeader(HttpMsg *msg)
+-->clientStreamInit(&http->client_stream, clientGetMoreData, clientReplyDetach,
+                     clientReplyStatus, newServer, clientSocketRecipient,
+                     clientSocketDetach, newClient, tempBuffer);
+
+-->clientGetMoreData(clientStreamNode * aNode, ClientHttpRequest * http)
+	-->clientReplyContext::identifyFoundObject(StoreEntry *newEntry)
+		-->clientReplyContext::doGetMoreData()
+		2个分支，前者有存储，需要缓存继续cachehit；后者为丢失，进入直接请求
+			--> clientReplyContext::cacheHit(StoreIOBuffer result)
+			--> clientReplyContext::processMiss()
+			==> 此处创建 store_entry 用来存储服务器端获得的数据
+			/** Start forwarding to get the new object from network */
+			Comm::ConnectionPointer conn = http->getConn() != NULL ? http->getConn()->clientConnection : NULL;
+				-->FwdState::Start(conn, http->storeEntry(), r, http->al); <===入口：client-side to start forwarding
+				FwdState::Pointer fwd = new FwdState(clientConn, entry, request, al);
+				fwd->start(fwd);
+					-->void FwdState::start(Pointer aSelf)
+					// do full route options selection
+					peerSelect(&serverDestinations, request, entry, fwdPeerSelectionCompleteWrapper, this);
+						-->peerSelect(Comm::ConnectionList * paths,HttpRequest * request,StoreEntry * entry,PSC * callback,void *callback_data)
+							-->peerSelectFoo(ps_state * ps)
+								-->peerSelectDnsPaths(ps_state *psstate)
+								callback(psstate->paths, psstate->lastError, cbdata);	
+								==>fwdPeerSelectionCompleteWrapper 实际调用，其在peerSelect函数写入
+									-->FwdState::startConnectionOrFail()
+									==>fwd->startConnectionOrFail();
+										-->FwdState::connectStart()
+											--> commCbCall(17,3, "fwdConnectDoneWrapper", CommConnectCbPtrFun(fwdConnectDoneWrapper, this));
+												-->fwdConnectDoneWrapper(const Comm::ConnectionPointer &conn, comm_err_t status, int xerrno, void *data)
+													-->fwd->connectDone(conn, status, xerrno)
+														--> dispatch();  --> 分配到各个协议处理函数中
+
+===============
+ftpReadTransferDone(FtpStateData * ftpState)
+	-->FtpStateData::completedListing()
+		==> 生成html页面并存储到 StoreEntry::entry
+	-->FtpStateData::ftpSendQuit(ftpState);
+		-->FtpStateData::ftpReadQuit(FtpStateData * ftpState)
+			-->FtpStateData::serverComplete(<-- inherit ServerStateData)
+			
+关于StoreEntry::entry 在FtpStateData中的
+FwdState::dispatch()
+	==> ftpStart(this);
+	-->ftpStart(FwdState * fwd)
+		-->FtpStateData::FtpStateData(FwdState *theFwdState, const Comm::ConnectionPointer &conn)
+			-->AsyncJob("FtpStateData"), ServerStateData(theFwdState)
+			-->	ServerStateData::ServerStateData(FwdState *theFwdState)
+			==>ServerStateData::entry = fwd->entry; // 指针
+			// 从而得知 数据为FwdState的entry指针持有，而FwdState的entry是由 
+			// clientReplyContext::processMiss--->FwdState::Start(conn, http->storeEntry(), r, http->al);中http->storeEntry()得来
+			//　clientHttpRequest::http->entry_ <== clientReplyContext::clientReplyContext(ClientHttpRequest *clientContext)
+			// 在相关地方创建： ClientStreamData newServer = new clientReplyContext(http);
+			createStoreEntry(r->method, r->flags); <== clientReplyContext::processMiss()
+			故而，真正存储数据的clientReplyContext http里
+===========================================================
+clientReplyContext::createStoreEntry(const HttpRequestMethod& m, RequestFlags reqFlags)
+	==>StoreEntry *e = storeCreateEntry(http->uri, http->log_uri, reqFlags, m);
+		e = new StoreEntry(url, log_url);
+	==>clientReplyContext::store_client::sc = storeClientListAdd(e, this);
+		-->clientReplyContext::store_client::sc = new store_client (e);并链入e->mem_obj列表中
+	==>http->storeEntry(e);clientReplyContext下的http -->ClientHttpRequest *http;
+	
+	
+========关于FwdState=====
+clientReplyContext  <----> FwdState
+1. clientReplyContext::processMiss()
+	参数均来自 clientReplyContext 下 http 成员
+	conn = http->getConn()
+	r = http->request
+	FwdState::Start(conn, http->storeEntry(), r, http->al);
+	
+======== 关于 FwdState 和 FtpStateData/HttpStateData/...=======================
+FwdState::dispatch() 为接口函数， 参数为 FwdState
+通过FwdState来交换信息
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+======================================================== 由httpAccept
+ConnStateData *connStateCreate(const Comm::ConnectionPointer &client, AnyP::PortCfg *port)
+  ==>ConnStateData *result = new ConnStateData; // 构建
+  ==>result->clientConnection = client; // comm层的接口
+  ==>result->in.buf = (char *)memAllocBuf(CLIENT_REQ_BUF_SZ, &result->in.allocatedSize);
+  ==>result->port = cbdataReference(port);
+  ==>result->flags.readMore = true;	//needs comm_read (for this request or new requests)
+			
+
+mainInitialize
+	--> serverConnectionsOpen
+		--> clientOpenListenSockets
+			-->clientHttpConnectionsOpen
+			==>AsyncCall::Pointer listenCall = asyncCall(33,2, "clientListenerConnectionOpened",
+                                        ListeningStartedDialer(&clientListenerConnectionOpened, s, Ipc::fdnHttpSocket, sub));
+				// 
+				-->StartListening
+				==>Ipc::StartListening(SOCK_STREAM, IPPROTO_TCP, s->listenConn, Ipc::fdnHttpSocket, listenCall);
+					-->comm_open_listener
+				==>ScheduleCallHere(callback); // AsyncCallQueue::Instance().schedule(callback);
+					-->AsyncCallQueue::Instance().schedule(call);
+
+					
+template <class Dialer>
+class AsyncCallT: public AsyncCall
+{
+public:
+    AsyncCallT(int aDebugSection, int aDebugLevel, const char *aName,
+               const Dialer &aDialer): AsyncCall(aDebugSection, aDebugLevel, aName),
+            dialer(aDialer) {}
+
+    AsyncCallT(const AsyncCallT<Dialer> &o):
+            AsyncCall(o.debugSection, o.debugLevel, o.name),
+            dialer(o.dialer) {}
+
+    ~AsyncCallT() {}
+
+    CallDialer *getDialer() { return &dialer; }
+
+protected:
+    virtual bool canFire() {
+        return AsyncCall::canFire() &&
+               dialer.canDial(*this);
+    }
+    virtual void fire() { dialer.dial(*this); }  // execute the callback function wrapped by argument aDialer
+
+    Dialer dialer;
+
+private:
+    AsyncCallT & operator=(const AsyncCallT &); // not defined. call assignments not permitted.
+}
+					
+template <class Dialer>
+inline
+AsyncCall *
+asyncCall(int aDebugSection, int aDebugLevel, const char *aName,
+          const Dialer &aDialer)
+{
+    return new AsyncCallT<Dialer>(aDebugSection, aDebugLevel, aName, aDialer);
+}					
+
+class AsyncCall: public RefCountable
+{
+public:
+    void make(); // fire if we can; handles general call debugging
+    virtual CallDialer *getDialer() = 0;
+protected:
+    virtual bool canFire();
+    virtual void fire() = 0;
+
+}
+
+

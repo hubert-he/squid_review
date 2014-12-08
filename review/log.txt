@@ -1,0 +1,265 @@
+2013/10/25 14:08:29| registering legacy mem
+2013/10/25 14:08:29| registered profile: mem
+2013/10/25 14:08:29| registering legacy squidaio_counts
+2013/10/25 14:08:29| registered profile: squidaio_counts
+2013/10/25 14:08:29| registered profile: diskd
+2013/10/25 14:08:29| Will use Rock FS
+2013/10/25 14:08:29| Startup: Initializing Authentication Schemes ...
+2013/10/25 14:08:29| Startup: Initialized Authentication Scheme 'basic'
+2013/10/25 14:08:29| Startup: Initialized Authentication Scheme 'digest'
+2013/10/25 14:08:29| Startup: Initialized Authentication Scheme 'negotiate'
+2013/10/25 14:08:29| Startup: Initialized Authentication Scheme 'ntlm'
+2013/10/25 14:08:29| Startup: Initialized Authentication.
+2013/10/25 14:08:29| Detected IPv6 hybrid or v4-mapping stack...
+2013/10/25 14:08:29| IPv6 transport Enabled
+2013/10/25 14:08:29| 
+2013/10/25 14:08:29| 
+2013/10/25 14:08:29| aclDestroyACLs: invoked
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type src
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'all'
+2013/10/25 14:08:29| ACL::FindByName found no match
+2013/10/25 14:08:29| aclParseAclLine: Creating ACL 'all'
+2013/10/25 14:08:29| ACL::Prototype::Factory: cloning an object for type 'src'
+2013/10/25 14:08:29| aclIpParseIpData: all
+2013/10/25 14:08:29| aclIpParseIpData: magic 'all' found.
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type url_regex
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'manager'
+2013/10/25 14:08:29| ACL::FindByName found no match
+2013/10/25 14:08:29| aclParseAclLine: Creating ACL 'manager'
+2013/10/25 14:08:29| ACL::Prototype::Factory: cloning an object for type 'url_regex'
+2013/10/25 14:08:29| aclParseRegexList: new Regex line or file
+2013/10/25 14:08:29| aclParseRegexList: buffering RE '-i'
+2013/10/25 14:08:29| aclParseRegexList: buffering RE '^cache_object://'
+2013/10/25 14:08:29| aclParseRegexList: buffering RE '+i'
+2013/10/25 14:08:29| aclParseRegexList: buffering RE '^https?://[^/]+/squid-internal-mgr/'
+2013/10/25 14:08:29| compileOptimisedREs: -i
+2013/10/25 14:08:29| compileOptimisedREs: adding RE '^cache_object://'
+2013/10/25 14:08:29| compileOptimisedREs: +i
+2013/10/25 14:08:29| compileRE: compiled '(^cache_object://)' with flags 11
+2013/10/25 14:08:29| compileOptimisedREs: adding RE '^https?://[^/]+/squid-internal-mgr/'
+2013/10/25 14:08:29| compileRE: compiled '(^https?://[^/]+/squid-internal-mgr/)' with flags 9
+2013/10/25 14:08:29| compileOptimisedREs: 2 REs are optimised into one RE.
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type src
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'localhost'
+2013/10/25 14:08:29| ACL::FindByName found no match
+2013/10/25 14:08:29| aclParseAclLine: Creating ACL 'localhost'
+2013/10/25 14:08:29| ACL::Prototype::Factory: cloning an object for type 'src'
+2013/10/25 14:08:29| aclIpParseIpData: 127.0.0.1/32
+2013/10/25 14:08:29| aclIpParseIpData: '127.0.0.1/32' matched: SCAN3-v4: %[0123456789.]/%[0123456789.]
+2013/10/25 14:08:29| Parsed: 127.0.0.1-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff](/128)
+2013/10/25 14:08:29| aclIpParseIpData: ::1
+2013/10/25 14:08:29| aclIpParseIpData: Lookup Host/IP ::1
+2013/10/25 14:08:29| aclIpParseIpData: Located host/IP: '[::1]'
+2013/10/25 14:08:29| ::1 --> [::1]
+2013/10/25 14:08:29| aclIpParseIpData: Duplicate host/IP: '[::1]' dropped.
+2013/10/25 14:08:29| aclIpParseIpData: Duplicate host/IP: '[::1]' dropped.
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: 127.0.0.1/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff] (127.0.0.1)  vs [::1]-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff]
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: [::1]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff] ([::1])  vs 127.0.0.1-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff]
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type dst
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'to_localhost'
+2013/10/25 14:08:29| ACL::FindByName found no match
+2013/10/25 14:08:29| aclParseAclLine: Creating ACL 'to_localhost'
+2013/10/25 14:08:29| ACL::Prototype::Factory: cloning an object for type 'dst'
+2013/10/25 14:08:29| aclIpParseIpData: 127.0.0.0/8
+2013/10/25 14:08:29| aclIpParseIpData: '127.0.0.0/8' matched: SCAN3-v4: %[0123456789.]/%[0123456789.]
+2013/10/25 14:08:29| Parsed: 127.0.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ff00:0](/104)
+2013/10/25 14:08:29| aclIpParseIpData: 0.0.0.0/32
+2013/10/25 14:08:29| aclIpParseIpData: '0.0.0.0/32' matched: SCAN3-v4: %[0123456789.]/%[0123456789.]
+2013/10/25 14:08:29| Parsed: 0.0.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff](/128)
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: 127.0.0.0/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff] (127.0.0.0)  vs 0.0.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff]
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: 0.0.0.0/[ffff:ffff:ffff:ffff:ffff:ffff:ff00:0] (0.0.0.0)  vs 127.0.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ff00:0]
+2013/10/25 14:08:29| aclIpParseIpData: ::1
+2013/10/25 14:08:29| aclIpParseIpData: Lookup Host/IP ::1
+2013/10/25 14:08:29| aclIpParseIpData: Located host/IP: '[::1]'
+2013/10/25 14:08:29| ::1 --> [::1]
+2013/10/25 14:08:29| aclIpParseIpData: Duplicate host/IP: '[::1]' dropped.
+2013/10/25 14:08:29| aclIpParseIpData: Duplicate host/IP: '[::1]' dropped.
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: 0.0.0.0/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff] (0.0.0.0)  vs [::1]-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff]
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: [::1]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff] ([::1])  vs 0.0.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff]
+2013/10/25 14:08:29| Processing Configuration File: /usr/local/squid/etc/squid.conf (depth 0)
+2013/10/25 14:08:29| Processing: acl localnet src 10.0.0.0/8	# RFC1918 possible internal network
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type src
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'localnet'
+2013/10/25 14:08:29| ACL::FindByName found no match
+2013/10/25 14:08:29| aclParseAclLine: Creating ACL 'localnet'
+2013/10/25 14:08:29| ACL::Prototype::Factory: cloning an object for type 'src'
+2013/10/25 14:08:29| aclIpParseIpData: 10.0.0.0/8
+2013/10/25 14:08:29| aclIpParseIpData: '10.0.0.0/8' matched: SCAN3-v4: %[0123456789.]/%[0123456789.]
+2013/10/25 14:08:29| Parsed: 10.0.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ff00:0](/104)
+2013/10/25 14:08:29| Processing: acl localnet src 172.16.0.0/12	# RFC1918 possible internal network
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type src
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'localnet'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'localnet'
+2013/10/25 14:08:29| aclIpParseIpData: 172.16.0.0/12
+2013/10/25 14:08:29| aclIpParseIpData: '172.16.0.0/12' matched: SCAN3-v4: %[0123456789.]/%[0123456789.]
+2013/10/25 14:08:29| Parsed: 172.16.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:fff0:0](/108)
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: 10.0.0.0/[ffff:ffff:ffff:ffff:ffff:ffff:fff0:0] (10.0.0.0)  vs 172.16.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:fff0:0]
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: 172.16.0.0/[ffff:ffff:ffff:ffff:ffff:ffff:ff00:0] (172.0.0.0)  vs 10.0.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ff00:0]
+2013/10/25 14:08:29| Processing: acl localnet src 192.168.0.0/16	# RFC1918 possible internal network
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type src
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'localnet'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'localnet'
+2013/10/25 14:08:29| aclIpParseIpData: 192.168.0.0/16
+2013/10/25 14:08:29| aclIpParseIpData: '192.168.0.0/16' matched: SCAN3-v4: %[0123456789.]/%[0123456789.]
+2013/10/25 14:08:29| Parsed: 192.168.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:0](/112)
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: 172.16.0.0/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:0] (172.16.0.0)  vs 192.168.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:0]
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: 192.168.0.0/[ffff:ffff:ffff:ffff:ffff:ffff:fff0:0] (192.160.0.0)  vs 172.16.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:fff0:0]
+2013/10/25 14:08:29| Processing: acl localnet src fc00::/7       # RFC 4193 local private network range
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type src
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'localnet'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'localnet'
+2013/10/25 14:08:29| aclIpParseIpData: fc00::/7
+2013/10/25 14:08:29| aclIpParseIpData: 'fc00::/7' matched: SCAN3-v6: %[0123456789ABCDEFabcdef:]/%[0123456789]
+2013/10/25 14:08:29| Parsed: [fc00::]-[::]/[fe00::](/7)
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: 192.168.0.0/[fe00::] ([::])  vs [fc00::]-[::]/[fe00::]
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: [fc00::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:0] ([fc00::])  vs 192.168.0.0-[::]/[ffff:ffff:ffff:ffff:ffff:ffff:ffff:0]
+2013/10/25 14:08:29| Processing: acl localnet src fe80::/10      # RFC 4291 link-local (directly plugged) machines
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type src
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'localnet'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'localnet'
+2013/10/25 14:08:29| aclIpParseIpData: fe80::/10
+2013/10/25 14:08:29| aclIpParseIpData: 'fe80::/10' matched: SCAN3-v6: %[0123456789ABCDEFabcdef:]/%[0123456789]
+2013/10/25 14:08:29| Parsed: [fe80::]-[::]/[ffc0::](/10)
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: [fc00::]/[ffc0::] ([fc00::])  vs [fe80::]-[::]/[ffc0::]
+2013/10/25 14:08:29| aclIpAddrNetworkCompare: compare: [fe80::]/[fe00::] ([fe00::])  vs [fc00::]-[::]/[fe00::]
+2013/10/25 14:08:29| Processing: acl SSL_ports port 443
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'SSL_ports'
+2013/10/25 14:08:29| ACL::FindByName found no match
+2013/10/25 14:08:29| aclParseAclLine: Creating ACL 'SSL_ports'
+2013/10/25 14:08:29| ACL::Prototype::Factory: cloning an object for type 'port'
+2013/10/25 14:08:29| cbdataAlloc: 0x98170c8
+2013/10/25 14:08:29| Processing: acl Safe_ports port 80		# http
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| ACL::FindByName found no match
+2013/10/25 14:08:29| aclParseAclLine: Creating ACL 'Safe_ports'
+2013/10/25 14:08:29| ACL::Prototype::Factory: cloning an object for type 'port'
+2013/10/25 14:08:29| cbdataAlloc: 0x9817ae0
+2013/10/25 14:08:29| Processing: acl Safe_ports port 21		# ftp
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'Safe_ports'
+2013/10/25 14:08:29| cbdataAlloc: 0x9817b00
+2013/10/25 14:08:29| Processing: acl Safe_ports port 443		# https
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'Safe_ports'
+2013/10/25 14:08:29| cbdataAlloc: 0x9817b20
+2013/10/25 14:08:29| Processing: acl Safe_ports port 70		# gopher
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'Safe_ports'
+2013/10/25 14:08:29| cbdataAlloc: 0x9817b40
+2013/10/25 14:08:29| Processing: acl Safe_ports port 210		# wais
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'Safe_ports'
+2013/10/25 14:08:29| cbdataAlloc: 0x9817b60
+2013/10/25 14:08:29| Processing: acl Safe_ports port 1025-65535	# unregistered ports
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'Safe_ports'
+2013/10/25 14:08:29| cbdataAlloc: 0x9816ec0
+2013/10/25 14:08:29| Processing: acl Safe_ports port 280		# http-mgmt
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'Safe_ports'
+2013/10/25 14:08:29| cbdataAlloc: 0x9817b80
+2013/10/25 14:08:29| Processing: acl Safe_ports port 488		# gss-http
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'Safe_ports'
+2013/10/25 14:08:29| cbdataAlloc: 0x9817ba0
+2013/10/25 14:08:29| Processing: acl Safe_ports port 591		# filemaker
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'Safe_ports'
+2013/10/25 14:08:29| cbdataAlloc: 0x9817bf0
+2013/10/25 14:08:29| Processing: acl Safe_ports port 777		# multiling http
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type port
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| aclParseAclLine: Appending to 'Safe_ports'
+2013/10/25 14:08:29| cbdataAlloc: 0x9817c10
+2013/10/25 14:08:29| Processing: acl CONNECT method CONNECT
+2013/10/25 14:08:29| ACL::Prototype::Registered: invoked for type method
+2013/10/25 14:08:29| ACL::Prototype::Registered:    yes
+2013/10/25 14:08:29| ACL::FindByName 'CONNECT'
+2013/10/25 14:08:29| ACL::FindByName found no match
+2013/10/25 14:08:29| aclParseAclLine: Creating ACL 'CONNECT'
+2013/10/25 14:08:29| ACL::Prototype::Factory: cloning an object for type 'method'
+2013/10/25 14:08:29| cbdataAlloc: 0x9817de8
+2013/10/25 14:08:29| Processing: http_access deny !Safe_ports
+2013/10/25 14:08:29| cbdataAlloc: 0x9817ed0
+2013/10/25 14:08:29| aclParseAclList: looking for ACL name 'Safe_ports'
+2013/10/25 14:08:29| ACL::FindByName 'Safe_ports'
+2013/10/25 14:08:29| Processing: http_access deny CONNECT !SSL_ports
+2013/10/25 14:08:29| cbdataAlloc: 0x9817fb8
+2013/10/25 14:08:29| aclParseAclList: looking for ACL name 'CONNECT'
+2013/10/25 14:08:29| ACL::FindByName 'CONNECT'
+2013/10/25 14:08:29| aclParseAclList: looking for ACL name 'SSL_ports'
+2013/10/25 14:08:29| ACL::FindByName 'SSL_ports'
+2013/10/25 14:08:29| Processing: http_access allow localhost manager
+2013/10/25 14:08:29| cbdataAlloc: 0x9818008
+2013/10/25 14:08:29| aclParseAclList: looking for ACL name 'localhost'
+2013/10/25 14:08:29| ACL::FindByName 'localhost'
+2013/10/25 14:08:29| aclParseAclList: looking for ACL name 'manager'
+2013/10/25 14:08:29| ACL::FindByName 'manager'
+2013/10/25 14:08:29| Processing: http_access deny manager
+2013/10/25 14:08:29| cbdataAlloc: 0x9818098
+2013/10/25 14:08:29| aclParseAclList: looking for ACL name 'manager'
+2013/10/25 14:08:29| ACL::FindByName 'manager'
+2013/10/25 14:08:29| Processing: http_access allow localnet
+2013/10/25 14:08:29| cbdataAlloc: 0x98180f0
+2013/10/25 14:08:29| aclParseAclList: looking for ACL name 'localnet'
+2013/10/25 14:08:29| ACL::FindByName 'localnet'
+2013/10/25 14:08:29| Processing: http_access allow localhost
+2013/10/25 14:08:29| cbdataAlloc: 0x9818148
+2013/10/25 14:08:29| aclParseAclList: looking for ACL name 'localhost'
+2013/10/25 14:08:29| ACL::FindByName 'localhost'
+2013/10/25 14:08:29| Processing: http_access deny all
+2013/10/25 14:08:29| cbdataAlloc: 0x98181a0
+2013/10/25 14:08:29| aclParseAclList: looking for ACL name 'all'
+2013/10/25 14:08:29| ACL::FindByName 'all'
+2013/10/25 14:08:29| Processing: http_port 3128
+2013/10/25 14:08:29| cbdataAlloc: 0x98182a8
+2013/10/25 14:08:29| http_port: found Listen on Port: 3128
+2013/10/25 14:08:29| http_port: found Listen on wildcard address: *:3128
+2013/10/25 14:08:29| cbdataLock: 0x98182a8=1
+2013/10/25 14:08:29| Processing: coredump_dir /usr/local/squid/var/cache/squid
+2013/10/25 14:08:29| Processing: refresh_pattern ^ftp:		1440	20%	10080
+2013/10/25 14:08:29| Processing: refresh_pattern ^gopher:	1440	0%	1440
+2013/10/25 14:08:29| Processing: refresh_pattern -i (/cgi-bin/|\?) 0	0%	0
+2013/10/25 14:08:29| Processing: refresh_pattern .		0	20%	4320
+2013/10/25 14:08:29| Processing: cache_effective_user root
+2013/10/25 14:08:29| Processing: cache_effective_group root
+2013/10/25 14:08:29| cbdataAlloc: 0x9819750
+2013/10/25 14:08:29| aclParseAclList: looking for ACL name 'all'
+2013/10/25 14:08:29| ACL::FindByName 'all'
+2013/10/25 14:08:29| Log definition name 'squid' file 'daemon:/home/chzh/Public/squid/bin/var/logs/access.log'
+2013/10/25 14:08:29| wccp2_add_service_list: added service id 0
+2013/10/25 14:08:29|  Config: '
+2013/10/25 14:08:29| getMyHostname: 'chzh' has DNS resolution.
+2013/10/25 14:08:29|  Config: '
+2013/10/25 14:08:29| leave_suid: PID 25726 called
+2013/10/25 14:08:29| ALERT: setgid: (1) Operation not permitted
